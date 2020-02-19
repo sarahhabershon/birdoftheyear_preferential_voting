@@ -63,9 +63,14 @@ def burdIsTheWord(x, y):
 		youAreTheWeakestLink(x, y)
 
 
-#until one bird has more than 50% of the vote
 
 
 cleanVoteList = cleanData(vote_list)
 scoreboard = createScoreboard(cleanVoteList)
 burdIsTheWord(scoreboard,cleanVoteList)
+
+
+with open('birdoftheyear.csv', 'w', newline="") as csv_file:
+	writer = csv.writer(csv_file)
+	for bird in finalScores:
+		writer.writerow([bird[0], bird[1]])
