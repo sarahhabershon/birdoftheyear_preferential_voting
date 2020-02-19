@@ -3,10 +3,7 @@ import copy
 
 data = open('votes_all.csv', encoding="utf8")
 vote_list = csv.reader(data)
-birdList = []
-
-
-# some votes pobjects are missing values - add 
+finalScores = []
 
 def cleanData(x):
 	clean_birds = []
@@ -24,18 +21,50 @@ def makeListsEqualLength(row, length):
 		x+=1
 
 def createScoreboard(x):
-	birdDictionary = {}
+	scoreDict = {}
 	for vote in x:
-		isitthere = birdDictionary.get(vote[1], False)
+		isitthere = scoreDict.get(vote[1], False)
 		if isitthere == False:
-			birdDictionary[vote[1]] = 1
+			scoreDict[vote[1]] = 1
 		else:
-			birdDictionary[vote[1]] +=1
-	return birdDictionary
+			scoreDict[vote[1]] +=1
+	return scoreDict
+
+
+def youAreTheWeakestLink(x, y):
+	global finalScores
+	print(x['Kākāpō'])
+	localcopy = copy.deepcopy(x) # create a local copy of the scoreboard dict
+	for burd, score in localcopy.items(): #for each bird in the copy
+		minvalue = min(x.values()) #find the bird with the lowest score
+		if score == minvalue: #check the score to see if it's the lowest scoring bird
+			loser = burd #if it is, it's the loser
+			finalScores.append([burd, score])# add its final score to the finalscore object
+			del x[burd] #deletes the loser from the scoreboard
+			contender = nextPlease(y, burd) #identifies the next contender
+			levelUp(x, contender) #adds a vote to the second preference			
+	return(finalScores)
+
+
+def nextPlease(votes, loser):
+	for vote in votes:
+		if vote[1] == loser:
+			del vote[0]
+			vote.append("novote")
+			return vote[1]
+
+def levelUp(x, contender):
+	if contender in x:
+		x[contender] += 1
+
+
+def burdIsTheWord(scoreboard, cleanVoteList):
+	while len(scoreboard) > 0:
+		youAreTheWeakestLink(scoreboard, cleanVoteList)
+
 
 
 
 cleanVoteList = cleanData(vote_list)
-createScoreboard = createScoreboard(cleanVoteList)
-
-print(createScoreboard)
+scoreboard = createScoreboard(cleanVoteList)
+burdIsTheWord(scoreboard,cleanVoteList)
