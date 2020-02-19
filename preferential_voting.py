@@ -33,7 +33,6 @@ def createScoreboard(x):
 
 def youAreTheWeakestLink(x, y):
 	global finalScores
-	print(x['Kākāpō'])
 	localcopy = copy.deepcopy(x) # create a local copy of the scoreboard dict
 	for burd, score in localcopy.items(): #for each bird in the copy
 		minvalue = min(x.values()) #find the bird with the lowest score
@@ -58,11 +57,13 @@ def levelUp(x, contender):
 		x[contender] += 1
 
 
-def burdIsTheWord(scoreboard, cleanVoteList):
-	while len(scoreboard) > 0:
-		youAreTheWeakestLink(scoreboard, cleanVoteList)
+def burdIsTheWord(x, y):
+	minvalue = min(x.values())
+	while len(x) > 0:
+		youAreTheWeakestLink(x, y)
 
 
+#until one bird has more than 50% of the vote
 
 
 cleanVoteList = cleanData(vote_list)
