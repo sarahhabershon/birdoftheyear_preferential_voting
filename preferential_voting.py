@@ -1,5 +1,6 @@
 import csv
 import copy
+import codecs
 
 data = open('votes_all.csv', encoding="utf8")
 vote_list = csv.reader(data)
@@ -70,7 +71,13 @@ scoreboard = createScoreboard(cleanVoteList)
 burdIsTheWord(scoreboard,cleanVoteList)
 
 
-with open('birdoftheyear.csv', 'w', newline="") as csv_file:
-	writer = csv.writer(csv_file)
-	for bird in finalScores:
-		writer.writerow([bird[0], bird[1]])
+# with open('birdoftheyear.csv', "w", "utf-8-sig", newline="") as csv_file:
+# 	writer = csv.writer(csv_file)
+# 	for bird in finalScores:
+# 		writer.writerow([bird[0], bird[1]])
+
+
+with codecs.open("birdoftheyear.csv", "w", "utf-8-sig") as csv_file:
+    writer = csv.writer(csv_file)
+    for bird in finalScores:
+    	writer.writerow([bird[0], bird[1]])
