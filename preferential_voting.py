@@ -23,4 +23,19 @@ def makeListsEqualLength(row, length):
 		row.append("novote")
 		x+=1
 
+def createScoreboard(x):
+	birdDictionary = {}
+	for vote in x:
+		isitthere = birdDictionary.get(vote[1], False)
+		if isitthere == False:
+			birdDictionary[vote[1]] = 1
+		else:
+			birdDictionary[vote[1]] +=1
+	return birdDictionary
+
+
+
 cleanVoteList = cleanData(vote_list)
+createScoreboard = createScoreboard(cleanVoteList)
+
+print(createScoreboard)
